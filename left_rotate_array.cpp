@@ -9,35 +9,35 @@ void Swap(int &a,int &b){
     b = temp;
     return;
 }
-void move_zeroes_toend(vector<int> &v){
-    for(int i = 0 ;i < v.size() ; i++){
-        if(v[i] == 0){
-            for(int j = i+1 ; j < v.size() ; j++){
-                if(v[j] != 0){
-                    Swap(v[i],v[j]);
-                    break;
-                }
-            }
-        }
+void rotate_by_1(vector<int> &v){
+    int n = v.size(); 
+    int temp = v[0];
+    for(int i = 1; i < n ;i++){
+        v[i-1] = v[i];
     }
-}
-// optimized approach
-// time complexity -- O(n)
-void move_zeroes_toend_optimized(vector<int> &v){
-    int count = 0;
-    for(int i = 0 ;i <v.size(); i++){
-        if(v[i] != 0){
-            Swap(v[i],v[count]);
-            count++;
-        }
-    }
+    v[n-1]= temp;
 }
 void print_array(vector<int> arr){
     for(int i = 0 ;i < arr.size() ; i++){
         cout << arr[i] << " " ;
     }
     cout << endl;
+} 
+void reverse_array(vector<int> &arr,int start,int end){
+    while(start < end ){
+        arr[start] = arr[start]^arr[end];
+        arr[end]  = arr[start]^arr[end];
+        arr[start] = arr[start]^arr[end];
+        start++;
+        end--;
+    }
 }
+void rotate_by_d(vector<int> &v, int d){
+    reverse_array(v,0,d-1);
+    reverse_array(v,d,v.size()-1);
+    reverse_array(v,0,v.size() -1 );
+}
+
 int main(){
     cout << "Enter the size of the array" << endl;
     int n;
@@ -50,6 +50,6 @@ int main(){
         v.push_back(x);
 
     }
-            move_zeroes_toend_optimized(v);
+            rotate_by_d(v,2);
         print_array(v);
 }
